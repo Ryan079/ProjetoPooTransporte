@@ -4,18 +4,20 @@ import java.io.Serializable;
 
 public  class Veiculo implements Serializable {
     private static final long serialVersionUID = 1004L;
-    protected String placa;
-    protected TipoVeiculo tipo;
-    protected String marca;
-    protected String cor;
-    protected int qtdPassageiro;
+    private String placa;
+    private TipoVeiculo tipo;
+    private String marca;
+    private String modelo;
+    private String cor;
+    private int qtdPassageiro;
 
-    public Veiculo(String cor, TipoVeiculo tipo, String marca, String placa, int qtdPassageiro) {
+    public Veiculo(String cor, TipoVeiculo tipo, String marca, String modelo, String placa) {
         this.cor = cor;
         this.tipo = tipo;
         this.marca = marca;
+        this.modelo = modelo;
         this.placa = placa;
-        this.qtdPassageiro = qtdPassageiro;
+        this.qtdPassageiro = tipo.getQtdPassageiro();
     }
 
     public String getCor() {

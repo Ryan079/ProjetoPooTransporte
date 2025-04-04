@@ -1,6 +1,7 @@
 package negocio.gerenciador;
 
 import dados.modelo.pessoa.Motorista;
+import dados.modelo.veiculo.TipoVeiculo;
 import dados.modelo.veiculo.Veiculo;
 import dados.repositorio.IRepositorioPessoa;
 import dados.repositorio.IRepositorioVeiculo;
@@ -18,15 +19,18 @@ public class GerenciadorMotorista {
         this.repoMotorista = new RepositorioMotoristaArquivo();
     }
 
-    public void cadastrarMotorista(String cpf, String nome, String telefone, char sexo, String cnh, Veiculo veiculo) throws EntidadeJaExisteException, IllegalArgumentException {
+    public void cadastrarMotorista(String cpf, String nome, String telefone, char sexo, String cnh, String cor, TipoVeiculo tipo, String marca, String modelo, String placa) throws EntidadeJaExisteException, IllegalArgumentException {
         if(repoMotorista.buscarPorIdentificador(cnh) != null)
             throw new EntidadeJaExisteException("Já existe um motorista registrado com essa cnh");
 
-        if(repoVeiculo.buscarPorPlaca(veiculo.getPlaca()) != null)
+        if(repoVeiculo.buscarPorPlaca(placa) != null)
             throw new EntidadeJaExisteException("Já existe um veículo registrado com essa placa");
+
+        Veiculo veiculo = new Veiculo(cor, tipo, marca, modelo, placa);
 
         Motorista motorista = new Motorista(cpf, nome, telefone, sexo, cnh, veiculo);
         repoMotorista.adicionar(motorista);
+        repoVeiculo.adicionar(veiculo);
     }
 
     public Motorista buscarMotorista(String cnh) {

@@ -3,6 +3,7 @@ package comunicacao;
 import dados.modelo.cidade.Cidade;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
+import dados.modelo.veiculo.TipoVeiculo;
 import dados.modelo.veiculo.Veiculo;
 import negocio.gerenciador.GerenciadorCidade;
 import negocio.gerenciador.GerenciadorCliente;
@@ -36,8 +37,8 @@ public class Fachada {
     }
 
     //Motorista
-    public void cadastrarMotorista(String cpf, String nome, String telefone, char sexo, String cnh, Veiculo veiculo) {
-        controladorMotorista.cadastrarMotorista(cpf, nome, telefone, sexo, cnh, veiculo);
+    public void cadastrarMotorista(String cpf, String nome, String telefone, char sexo, String cnh, String cor, TipoVeiculo tipo, String marca, String modelo, String placa) {
+        controladorMotorista.cadastrarMotorista(cpf, nome, telefone, sexo, cnh, cor, tipo, marca, modelo, placa);
     }
 
     public Motorista buscarMotorista(String cnh) {
