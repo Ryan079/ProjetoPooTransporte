@@ -15,7 +15,7 @@ public abstract class Pessoa implements Serializable {
         this.nome = nome;
         this.telefone = telefone;
         this.sexo = sexo;
-        this.avaliacao = 5;
+        this.avaliacao = 5.0;
     }
 
     public String getCpf() {
