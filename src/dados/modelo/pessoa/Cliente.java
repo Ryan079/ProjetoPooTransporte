@@ -9,8 +9,8 @@ public class Cliente extends Pessoa{
     private double saldo;
     private List<FormaDePagamento> formaDePagamentos;
 
-    public Cliente(String cpf, String nome, String telefone, char sexo) {
-        super(cpf, nome, telefone, sexo);
+    public Cliente(String cpf, String nome, String telefone, String idade, char sexo) {
+        super(cpf, nome, telefone, idade, sexo);
         this.saldo = 0.0;
         this.formaDePagamentos = new ArrayList<>();
     }

@@ -14,10 +14,10 @@ public class GerenciadorCliente {
         this.repoCliente = new RepositorioClienteArquivo();
     }
 
-    public void cadastrarCliente(String nome, String cpf, String telefone, char sexo) throws EntidadeJaExisteException, IllegalArgumentException {
+    public void cadastrarCliente(String nome, String cpf, String telefone, String idade, char sexo) throws EntidadeJaExisteException, IllegalArgumentException {
         if(repoCliente.buscarPorIdentificador(cpf) != null)
             throw new EntidadeJaExisteException("Já existe um cliente com esse cpf");
-        Cliente c = new Cliente(nome, cpf, telefone, sexo);
+        Cliente c = new Cliente(nome, cpf, telefone, idade, sexo);
         repoCliente.adicionar(c);
     }
 

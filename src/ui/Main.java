@@ -1,14 +1,11 @@
 package ui;
 
 import comunicacao.Fachada;
-import dados.modelo.cidade.Cidade;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
 import dados.modelo.veiculo.TipoVeiculo;
-import dados.modelo.veiculo.Veiculo;
 import negocio.excecoes.EntidadeJaExisteException;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,10 +29,12 @@ public class Main {
                 String cpf = input.nextLine();
                 System.out.println("Telefone: ");
                 String telefone = input.nextLine();
+                System.out.println("Idade: ");
+                String idade = input.nextLine();
                 System.out.println("Sexo (M/F): ");
                 char sexo = input.next().charAt(0);
                 try {
-                    fachada.cadastrarCliente(nome, cpf, telefone, sexo);
+                    fachada.cadastrarCliente(nome, cpf, telefone, idade, sexo);
                     System.out.println("Cliente cadastrado com sucesso.");
                 } catch(EntidadeJaExisteException e) {
                     System.out.println("Erro de Cliente já existente no sistema: " + e.getMessage());
@@ -47,13 +46,15 @@ public class Main {
                 //Motorista
                 System.out.println("----Motorista----");
                 System.out.println("Nome: ");
-                nome = input.nextLine();
+                String nome2 = input.nextLine();
                 System.out.println("CPF: ");
-                cpf = input.nextLine();
+                String cpf2 = input.nextLine();
                 System.out.println("Telefone: ");
-                telefone = input.nextLine();
+                String telefone2 = input.nextLine();
+                System.out.println("Idade: ");
+                String idade2 = input.nextLine();
                 System.out.println("Sexo (M/F): ");
-                sexo = input.next().charAt(0);
+                char sexo2 = input.next().charAt(0);
                 //Limpar buffer
                 input.nextLine();
                 System.out.println("CNH: ");
@@ -82,7 +83,7 @@ public class Main {
                 String cor = input.nextLine();
 
                 try {
-                    fachada.cadastrarMotorista(cpf, nome, telefone, sexo, cnh, cor, t, marca, modelo, placa);
+                    fachada.cadastrarMotorista(cpf2, nome2, telefone2, idade2, sexo2, cnh, cor, t, marca, modelo, placa);
                     System.out.println("Motorista cadastrado com sucesso.");
                 } catch (EntidadeJaExisteException e) {
                     System.out.println("Erro de Motorista ou Veículo já existente: " + e.getMessage());
@@ -93,15 +94,75 @@ public class Main {
                 break;
         }
 
-
-        Cliente clienteAtual = null;
-        Motorista motoristaAtual = null;
         //Sistema com Cliente e Motorista ativos
         while(true) {
-
             System.out.println("======= MENU DO APLICATIVO =======");
+            System.out.println("1. Cadastrar Cliente");
+            System.out.println("2. Cadastrar Motorista");
 
+            int opcao = Integer.parseInt(input.nextLine());
+
+            try{
+                switch(opcao) {
+                    case 1:
+                        System.out.println("Nome: ");
+                        String nome = input.nextLine();
+                        System.out.println("CPF: ");
+                        String cpf = input.nextLine();
+                        System.out.println("Telefone: ");
+                        String telefone = input.nextLine();
+                        System.out.println("Idade: ");
+                        String idade = input.nextLine();
+                        System.out.println("Sexo (M/F): ");
+                        char sexo = input.next().charAt(0);
+                        input.nextLine();
+                        fachada.cadastrarCliente(nome, cpf, telefone, idade, sexo);
+                        System.out.println("Cliente cadastrado com sucesso.");
+                        break;
+                    case 2:
+                        System.out.println("Nome: ");
+                        String nome2 = input.nextLine();
+                        System.out.println("Cpf: ");
+                        String cpf2 = input.nextLine();
+                        System.out.println("Telefone: ");
+                        String telefone2 = input.nextLine();
+                        System.out.println("Idade: ");
+                        String idade2 = input.nextLine();
+                        System.out.println("Sexo (M/F): ");
+                        char sexo2 = input.next().charAt(0);
+                        input.nextLine();
+                        System.out.println("CNH: ");
+                        String cnh = input.nextLine();
+                        System.out.println("Placa: ");
+                        String placa = input.nextLine();
+                        TipoVeiculo t = null;
+                        while(t == null) {
+                            System.out.println("Tipo de Veiculo");
+                            for(TipoVeiculo tipo : TipoVeiculo.values())
+                                System.out.println(tipo);
+                            String tipoEntrada = input.nextLine().toUpperCase();
+                            try{
+                                t = TipoVeiculo.valueOf(tipoEntrada);
+                            } catch (IllegalArgumentException e) {
+                                System.out.println("Erro de entrada válida: " + e.getMessage());
+                            }
+                        }
+                        System.out.println("Marca: ");
+                        String marca = input.nextLine();
+                        System.out.println("Modelo: ");
+                        String modelo = input.nextLine();
+                        System.out.println("Cor: ");
+                        String cor = input.nextLine();
+                        fachada.cadastrarMotorista(cpf2, nome2, telefone2, idade2, sexo2, cnh, cor, t, marca, modelo, placa);
+                        System.out.println("Motorista cadastrado com sucesso.");
+                }
+            } catch (EntidadeJaExisteException e) {
+                System.out.println("Erro de cadastro: "+ e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println("Erro de execução: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Erro inesperado: " + e.getMessage());
+            }
         }
-
     }
 }

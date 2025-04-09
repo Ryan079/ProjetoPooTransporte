@@ -7,13 +7,15 @@ public abstract class Pessoa implements Serializable {
     protected String nome;
     protected String cpf; //CPF é um dado imutável utilizado para pesquisas no repositório
     protected String telefone;
+    protected String idade;
     protected char sexo;
     protected double avaliacao;
 
-    public Pessoa(String cpf, String nome, String telefone, char sexo) {
+    public Pessoa(String cpf, String nome, String telefone, String idade, char sexo) {
         this.cpf = cpf;
         this.nome = nome;
         this.telefone = telefone;
+        this.idade = idade;
         this.sexo = sexo;
         this.avaliacao = 5.0;
     }

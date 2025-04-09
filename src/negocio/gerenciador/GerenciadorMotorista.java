@@ -19,7 +19,7 @@ public class GerenciadorMotorista {
         this.repoMotorista = new RepositorioMotoristaArquivo();
     }
 
-    public void cadastrarMotorista(String cpf, String nome, String telefone, char sexo, String cnh, String cor, TipoVeiculo tipo, String marca, String modelo, String placa) throws EntidadeJaExisteException, IllegalArgumentException {
+    public void cadastrarMotorista(String cpf, String nome, String telefone, String idade, char sexo, String cnh, String cor, TipoVeiculo tipo, String marca, String modelo, String placa) throws EntidadeJaExisteException, IllegalArgumentException {
         if(repoMotorista.buscarPorIdentificador(cnh) != null)
             throw new EntidadeJaExisteException("Já existe um motorista registrado com essa cnh");
 
@@ -28,7 +28,7 @@ public class GerenciadorMotorista {
 
         Veiculo veiculo = new Veiculo(cor, tipo, marca, modelo, placa);
 
-        Motorista motorista = new Motorista(cpf, nome, telefone, sexo, cnh, veiculo);
+        Motorista motorista = new Motorista(cpf, nome, telefone, idade, sexo, cnh, veiculo);
         repoMotorista.adicionar(motorista);
         repoVeiculo.adicionar(veiculo);
     }
