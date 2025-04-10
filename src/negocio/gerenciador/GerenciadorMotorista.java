@@ -6,6 +6,7 @@ import dados.modelo.veiculo.Veiculo;
 import dados.repositorio.IRepositorioPessoa;
 import dados.repositorio.IRepositorioVeiculo;
 import dados.repositorio.RepositorioMotoristaArquivo;
+import dados.repositorio.RepositorioVeiculoArquivo;
 import negocio.excecoes.EntidadeJaExisteException;
 import utilitario.Validador;
 
@@ -17,6 +18,7 @@ public class GerenciadorMotorista {
 
     public GerenciadorMotorista() {
         this.repoMotorista = new RepositorioMotoristaArquivo();
+        this.repoVeiculo = new RepositorioVeiculoArquivo();
     }
 
     public void cadastrarMotorista(String cpf, String nome, String telefone, String idade, char sexo, String cnh, String cor, TipoVeiculo tipo, String marca, String modelo, String placa) throws EntidadeJaExisteException, IllegalArgumentException {

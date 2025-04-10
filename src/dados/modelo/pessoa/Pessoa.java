@@ -3,7 +3,7 @@ package dados.modelo.pessoa;
 import java.io.Serializable;
 
 public abstract class Pessoa implements Serializable {
-    private static final long serialVersionUID = 1003L;
+    private static final long serialVersionUID = 1002L;
     protected String nome;
     protected String cpf; //CPF é um dado imutável utilizado para pesquisas no repositório
     protected String telefone;

@@ -3,7 +3,7 @@ package dados.modelo.veiculo;
 import java.io.Serializable;
 
 public  class Veiculo implements Serializable {
-    private static final long serialVersionUID = 1004L;
+    private static final long serialVersionUID = 1003L;
     private String placa;
     private TipoVeiculo tipo;
     private String marca;

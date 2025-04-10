@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public abstract class Viagem implements Serializable {
 
-    private static final long serialVersionUID = 1005L;
+    private static final long serialVersionUID = 1004L;
     private Motorista motorista;
     private Veiculo veiculo;
     private Cliente cliente;
