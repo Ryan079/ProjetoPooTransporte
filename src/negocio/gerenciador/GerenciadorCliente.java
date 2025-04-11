@@ -41,6 +41,15 @@ public class GerenciadorCliente {
         return repoCliente.listar();
     }
 
+    //criado para ser chamado em outros gerenciadores
+    public void atualizarCliente(Cliente clienteAtualizado) throws EntidadeNaoExisteException {
+        Cliente c = repoCliente.buscarPorIdentificador(clienteAtualizado.getCpf());
+        if(c == null)
+            throw new EntidadeNaoExisteException("Cliente com o CPF " + clienteAtualizado.getCpf() + " não encontrado." );
+
+        repoCliente.atualizar(clienteAtualizado);
+    }
+
     public void adicionarFormaDePagamento(String cpf, FormaDePagamento forma) throws EntidadeNaoExisteException, LimiteFormaDePagamentoAtingidoException {
         Cliente c = repoCliente.buscarPorIdentificador(cpf);
         if(c == null)
@@ -58,6 +67,7 @@ public class GerenciadorCliente {
         if(valor <= 0)
             throw new EntradaInvalidaException();
         c.creditarSaldo(valor);
+        repoCliente.atualizar(c);
 
     }
 

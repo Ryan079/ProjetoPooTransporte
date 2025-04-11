@@ -8,7 +8,6 @@ import dados.modelo.pagamento.Pix;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
 import dados.modelo.veiculo.TipoVeiculo;
-import dados.modelo.veiculo.Veiculo;
 import dados.modelo.viagem.TipoViagem;
 import dados.modelo.viagem.Viagem;
 import dados.repositorio.IRepositorioViagem;
@@ -18,9 +17,11 @@ import negocio.excecoes.SaldoInsuficienteException;
 
 public class GerenciadorViagem {
     private IRepositorioViagem repoViagem;
+    private GerenciadorCliente gerenciadorCliente; //Gerenciador adicionado para poder salvar no arquivo as alterações no saldo do cliente
 
     public GerenciadorViagem() {
         this.repoViagem = new RepositorioViagemArquivo();
+        this.gerenciadorCliente = new GerenciadorCliente();
     }
 
     public void criarViagem(Cliente c, Motorista m, Local origem, Local destino, TipoViagem tipo) throws EntradaInvalidaException {
@@ -44,15 +45,22 @@ public class GerenciadorViagem {
 
         if(forma instanceof Dinheiro)
             System.out.println("Pagamento realizado com sucesso.");
+
         else if(forma instanceof Pix) {
             if(c.getSaldo() < valor)
                 throw new SaldoInsuficienteException();
+
             c.debitarSaldo(valor);
+            gerenciadorCliente.atualizarCliente(c);
+
         } else if(forma instanceof CartaoCredito) {
             CartaoCredito cartao = (CartaoCredito) forma;
             if(cartao.getLimiteDisponivel() < valor)
                 throw new SaldoInsuficienteException();
+
             cartao.debitar(valor);
+            gerenciadorCliente.atualizarCliente(c);
+
         } else {
             throw new EntradaInvalidaException();
         }

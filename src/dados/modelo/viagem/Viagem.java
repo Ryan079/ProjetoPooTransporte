@@ -17,6 +17,7 @@ public class Viagem implements Serializable {
     private double valor;
     private double distancia;
     private TipoViagem tipo;
+    private StatusViagem status;
 
     public Viagem(Cliente cliente, Local destino, double distancia, Motorista motorista, Local origem, TipoViagem tipo, double valor) {
         this.cliente = cliente;
@@ -26,6 +27,7 @@ public class Viagem implements Serializable {
         this.origem = origem;
         this.tipo = tipo;
         this.valor = valor;
+        this.status = StatusViagem.PENDENTE;
     }
 
     public Cliente getCliente() {

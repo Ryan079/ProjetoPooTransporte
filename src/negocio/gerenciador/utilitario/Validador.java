@@ -1,4 +1,4 @@
-package utilitario;
+package negocio.gerenciador.utilitario;
 
 import dados.modelo.veiculo.TipoVeiculo;
 import dados.modelo.veiculo.Veiculo;

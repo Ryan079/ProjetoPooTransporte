@@ -23,6 +23,11 @@ public class RepositorioClienteArquivo implements IRepositorioPessoa<Cliente>{
     }
 
     @Override
+    public void atualizar(Cliente pessoa) {
+        salvar();
+    }
+
+    @Override
     public Cliente buscarPorIdentificador(String identificador) {
         for(Cliente c : clientes)
             if(c.getCpf().equals(identificador))

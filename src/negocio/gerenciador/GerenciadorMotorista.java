@@ -8,7 +8,6 @@ import dados.repositorio.IRepositorioVeiculo;
 import dados.repositorio.RepositorioMotoristaArquivo;
 import dados.repositorio.RepositorioVeiculoArquivo;
 import negocio.excecoes.EntidadeJaExisteException;
-import utilitario.Validador;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package dados.repositorio;
 
+import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
 
 import java.io.*;
@@ -16,6 +17,11 @@ public class RepositorioMotoristaArquivo implements IRepositorioPessoa<Motorista
     @Override
     public void adicionar(Motorista motorista) {
         motoristas.add(motorista);
+        salvar();
+    }
+
+    @Override
+    public void atualizar(Motorista pessoa) {
         salvar();
     }
 
