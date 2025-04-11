@@ -9,6 +9,7 @@ import negocio.excecoes.EntidadeJaExisteException;
 import negocio.excecoes.EntidadeNaoExisteException;
 import negocio.excecoes.EntradaInvalidaException;
 import negocio.excecoes.LimiteFormaDePagamentoAtingidoException;
+import negocio.gerenciador.utilitario.Validador;
 
 import java.util.List;
 
@@ -50,6 +51,11 @@ public class GerenciadorCliente {
         repoCliente.atualizar(clienteAtualizado);
     }
 
+    public boolean possuiPix(String cpf) {
+        Cliente c = repoCliente.buscarPorIdentificador(cpf);
+        return Validador.possuiPix(c);
+    }
+
     public void adicionarFormaDePagamento(String cpf, FormaDePagamento forma) throws EntidadeNaoExisteException, LimiteFormaDePagamentoAtingidoException {
         Cliente c = repoCliente.buscarPorIdentificador(cpf);
         if(c == null)
@@ -58,6 +64,7 @@ public class GerenciadorCliente {
             throw new LimiteFormaDePagamentoAtingidoException();
 
         c.adicionarFormaDePagamento(forma);
+        repoCliente.atualizar(c);
     }
 
     public void adicionarSaldo(String cpf, double valor) throws EntidadeNaoExisteException, EntradaInvalidaException{

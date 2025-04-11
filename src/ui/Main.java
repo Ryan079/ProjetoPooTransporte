@@ -1,12 +1,12 @@
 package ui;
 
 import comunicacao.Fachada;
+import dados.modelo.pagamento.CartaoCredito;
+import dados.modelo.pagamento.Pix;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
-import dados.modelo.veiculo.TipoVeiculo;
 import negocio.excecoes.EntidadeJaExisteException;
 import negocio.excecoes.EntidadeNaoExisteException;
-import negocio.excecoes.EntradaInvalidaException;
 import ui.utilitario.Cadastro;
 
 import java.util.List;
@@ -92,13 +92,50 @@ public class Main {
                                  System.out.println("------- Menu do Cliente -------");
                                  System.out.println("Bem vindo, " + atual.getNome());
                                  System.out.println("1 - Exibir Informações");
-                                 System.out.println("2 - Solicitar Corrida");
+                                 System.out.println("2 - Adicionar Forma de Pagamento");
+                                 System.out.println("3 - Adicionar Saldo");
+                                 System.out.println("4 - Solicitar Corrida");
                                  System.out.println("0 - Retornar ao Menu Principal");
 
                                  int opcaoCliente = Integer.parseInt(input.nextLine());
                                  switch(opcaoCliente) {
                                      case 1:
                                          System.out.println(atual);
+                                         break;
+                                     case 2:
+                                         System.out.println("Escolha a forma de pagamento para adicionar");
+                                         System.out.println("1 - Pix");
+                                         System.out.println("2 - Cartão de Crédito");
+
+                                         int escolhaPagamento = Integer.parseInt(input.nextLine());
+
+                                         switch(escolhaPagamento) {
+                                             case 1:
+                                                 fachada.adicionarFormaDePagamento(atual.getCpf(), new Pix());
+                                                 System.out.println("Pix adicionado com sucesso na conta");
+                                                 break;
+                                             case 2:
+                                                 System.out.println("Número do cartão.");
+                                                 String numero = input.nextLine();
+                                                 System.out.println("CCV: ");
+                                                 String ccv = input.nextLine();
+                                                 String nomeTitular = atual.getNome();
+                                                 System.out.println("Limite máximo: ");
+                                                 double limite = Double.parseDouble(input.nextLine());
+                                                 fachada.adicionarFormaDePagamento(atual.getCpf(), new CartaoCredito(ccv, limite, nomeTitular, numero));
+                                                 System.out.println("Cartão de crédito adiciona com sucesso.");
+                                                 break;
+                                         }
+                                         break;
+                                     case 3:
+                                         if(fachada.possuiPix(atual.getCpf())) {
+                                             System.out.println("Insira o valor que deseja depositar na conta.");
+                                             double valor = Double.parseDouble(input.nextLine());
+                                             fachada.adicionarSaldo(atual.getCpf(), valor);
+                                             System.out.println("Saldo atualizado com sucesso.");
+                                         } else {
+                                             System.out.println("É necessário ter o pix cadastrado para adicionar saldo.");
+                                         }
                                          break;
                                      case 0:
                                          menuCliente = false;

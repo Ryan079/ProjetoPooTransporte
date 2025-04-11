@@ -39,6 +39,10 @@ public class Fachada {
         gerenciadorCliente.adicionarSaldo(cpf, saldo);
     }
 
+    public boolean possuiPix(String cpf) {
+        return gerenciadorCliente.possuiPix(cpf);
+    }
+
     //Motorista
     public void cadastrarMotorista(String cpf, String nome, String telefone, String idade, char sexo, String cnh, String cor, TipoVeiculo tipo, String marca, String modelo, String placa) {
         gerenciadorMotorista.cadastrarMotorista(cpf, nome, telefone, idade, sexo, cnh, cor, tipo, marca, modelo, placa);

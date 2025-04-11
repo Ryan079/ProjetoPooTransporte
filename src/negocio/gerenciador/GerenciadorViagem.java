@@ -8,10 +8,12 @@ import dados.modelo.pagamento.Pix;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
 import dados.modelo.veiculo.TipoVeiculo;
+import dados.modelo.viagem.StatusViagem;
 import dados.modelo.viagem.TipoViagem;
 import dados.modelo.viagem.Viagem;
 import dados.repositorio.IRepositorioViagem;
 import dados.repositorio.RepositorioViagemArquivo;
+import negocio.excecoes.AlteracaoInvalidaException;
 import negocio.excecoes.EntradaInvalidaException;
 import negocio.excecoes.SaldoInsuficienteException;
 
@@ -64,8 +66,33 @@ public class GerenciadorViagem {
         } else {
             throw new EntradaInvalidaException();
         }
-
     }
+
+    public void aceitarViagem(Viagem viagem) throws AlteracaoInvalidaException {
+        if(viagem.getStatus() != StatusViagem.PENDENTE)
+            throw new AlteracaoInvalidaException("A viagem não pode ser aceita nesse estado.");
+
+        viagem.setStatus(StatusViagem.EM_ANDAMENTO);
+        repoViagem.atualizar(viagem);
+    }
+
+    public void finalizarViagem(Viagem viagem) throws AlteracaoInvalidaException {
+        if(viagem.getStatus() != StatusViagem.EM_ANDAMENTO)
+            throw new AlteracaoInvalidaException("A viagem precisa estar em andamento para ser finalizada.");
+
+        viagem.setStatus(StatusViagem.CONCLUIDA);
+        repoViagem.atualizar(viagem);
+    }
+
+    public void cancelarCorrida(Viagem viagem) throws AlteracaoInvalidaException {
+        if(viagem.getStatus() == StatusViagem.CONCLUIDA)
+            throw new AlteracaoInvalidaException("Não é possível cancelar uma viagem já finalizada.");
+
+        viagem.setStatus(StatusViagem.CANCELADA);
+        repoViagem.atualizar(viagem);
+    }
+
+
 
     public double gerarDistanciaAleatoria() {
         return (Math.random() * (3000 -  500 + 1)) + 500;//gera uma distância mínima de 500m a 3km

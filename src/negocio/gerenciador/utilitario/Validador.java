@@ -1,5 +1,8 @@
 package negocio.gerenciador.utilitario;
 
+import dados.modelo.pagamento.FormaDePagamento;
+import dados.modelo.pagamento.Pix;
+import dados.modelo.pessoa.Cliente;
 import dados.modelo.veiculo.TipoVeiculo;
 import dados.modelo.veiculo.Veiculo;
 
@@ -32,4 +35,13 @@ public class Validador {
     public static boolean validarTipo(TipoVeiculo tipo) {
         return tipo != null && Arrays.asList(TipoVeiculo.values()).contains(tipo);
     }
+
+    public static boolean possuiPix(Cliente c) {
+        for(FormaDePagamento pagamento : c.getFormaDePagamentos()) {
+            if(pagamento instanceof Pix)
+                return true;
+        }
+        return false;
+    }
+
 }

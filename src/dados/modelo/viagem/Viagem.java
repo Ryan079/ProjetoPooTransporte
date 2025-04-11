@@ -3,7 +3,6 @@ package dados.modelo.viagem;
 import dados.modelo.local.Local;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
-import dados.modelo.veiculo.Veiculo;
 
 import java.io.Serializable;
 
@@ -56,6 +55,14 @@ public class Viagem implements Serializable {
 
     public double getValor() {
         return valor;
+    }
+
+    public StatusViagem getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusViagem status) {
+        this.status = status;
     }
 
     @Override

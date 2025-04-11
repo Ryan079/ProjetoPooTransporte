@@ -21,6 +21,11 @@ public class RepositorioViagemArquivo implements IRepositorioViagem{
     }
 
     @Override
+    public void atualizar(Viagem viagem) {
+        salvar();
+    }
+
+    @Override
     public List<Viagem> listar() {
         return viagens;
     }

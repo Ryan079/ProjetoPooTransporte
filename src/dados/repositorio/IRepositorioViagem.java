@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface IRepositorioViagem {
     void adicionar(Viagem viagem);
+    void atualizar(Viagem viagemAtualizada);
     List<Viagem> listar();
 }
