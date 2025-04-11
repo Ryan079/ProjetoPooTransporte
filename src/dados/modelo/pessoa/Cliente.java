@@ -35,12 +35,14 @@ public class Cliente extends Pessoa{
 
     @Override
     public String toString() {
-        return "Cliente{" +
-                "cpf='" + cpf + '\'' +
-                ", nome='" + nome + '\'' +
-                ", sexo=" + sexo +
-                ", telefone='" + telefone + '\'' +
-                ", saldo=" + saldo +
-                '}';
+        return "=== Cliente ===\n" +
+                "Nome: " + nome + "\n" +
+                "CPF: " + cpf + "\n" +
+                "Idade: " + idade + "\n" +
+                "Sexo: " + sexo + "\n" +
+                "Telefone: " + telefone + "\n" +
+                "Forma de Pagamentos: " + formaDePagamentos + "\n" +
+                "Saldo: R$ " + String.format("%.2f", saldo) + "\n" +
+                "Avaliação: " + String.format("%.1f", avaliacao) + "/5.0";
     }
 }

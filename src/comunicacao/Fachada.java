@@ -19,8 +19,8 @@ public class Fachada {
     }
 
     // Cliente
-    public void cadastrarCliente(String nome, String cpf, String telefone, String idade, char sexo) {
-        gerenciadorCliente.cadastrarCliente(nome, cpf, telefone, idade, sexo);
+    public void cadastrarCliente(String cpf, String nome, String telefone, String idade, char sexo) {
+        gerenciadorCliente.cadastrarCliente(cpf, nome, telefone, idade, sexo);
     }
 
     public Cliente buscarCliente(String cpf) {

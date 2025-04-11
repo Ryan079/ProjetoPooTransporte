@@ -10,25 +10,25 @@ import java.util.Scanner;
 public class Cadastro {
     public static void cadastrarCliente(Fachada fachada, Scanner input) throws EntidadeJaExisteException {
         System.out.println("Nome: ");
-        String nome = input.nextLine();
+        String nome = input.nextLine().trim();
         System.out.println("CPF: ");
-        String cpf = input.nextLine();
+        String cpf = input.nextLine().trim();
         System.out.println("Telefone: ");
-        String telefone = input.nextLine();
+        String telefone = input.nextLine().trim();
         System.out.println("Idade: ");
-        String idade = input.nextLine();
+        String idade = input.nextLine().trim();
         System.out.println("Sexo (M/F): ");
         char sexo = input.next().charAt(0);
         input.nextLine(); //Limpa buffer
 
-        fachada.cadastrarCliente(nome, cpf, telefone, idade, sexo);
+        fachada.cadastrarCliente(cpf, nome, telefone, idade, sexo);
     }
 
     public static void cadastrarMotorista(Fachada fachada, Scanner input) throws EntidadeJaExisteException {
         System.out.println("Nome: ");
         String nome = input.nextLine();
         System.out.println("CPF: ");
-        String cpf = input.nextLine();
+        String cpf = input.nextLine().trim();
         System.out.println("Telefone: ");
         String telefone = input.nextLine();
         System.out.println("Idade: ");
@@ -38,9 +38,9 @@ public class Cadastro {
         input.nextLine(); // limpar buffer
 
         System.out.println("CNH: ");
-        String cnh = input.nextLine();
+        String cnh = input.nextLine().trim();
         System.out.println("Placa: ");
-        String placa = input.nextLine();
+        String placa = input.nextLine().toUpperCase();
 
         TipoVeiculo tipo = null;
         while (tipo == null) {

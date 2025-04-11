@@ -42,12 +42,11 @@ public  class Veiculo implements Serializable {
 
     @Override
     public String toString() {
-        return "Veiculo{" +
-                "cor='" + cor + '\'' +
-                ", placa='" + placa + '\'' +
-                ", tipo=" + tipo +
-                ", marca='" + marca + '\'' +
-                ", qtdPassageiro=" + qtdPassageiro +
-                '}';
+        return "=== Veículo ===\n" +
+                "Placa: " + placa + "\n" +
+                "Marca: " + marca + "\n" +
+                "Tipo: " + tipo + "\n" +
+                "Cor: " + cor + "\n" +
+                "Quantidade de Passageiros: " + qtdPassageiro;
     }
 }

@@ -15,8 +15,16 @@ public class Motorista extends Pessoa{
         return cnh;
     }
 
-
-
-
-
+    @Override
+    public String toString() {
+        return "=== Motorista ===\n" +
+                "Nome: " + nome + "\n" +
+                "CPF: " + cpf + "\n" +
+                "Idade: " + idade + "\n" +
+                "Sexo: " + sexo + "\n" +
+                "Telefone: " + telefone + "\n" +
+                "CNH: " + cnh + "\n" +
+                "Avaliação: " + String.format("%.1f", avaliacao) + "/5.0\n" +
+                veiculo + "\n";
+    }
 }

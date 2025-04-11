@@ -16,4 +16,10 @@ public class Dinheiro extends FormaDePagamento{
     public int hashCode() {
         return super.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Dinheiro";
+    }
+
 }

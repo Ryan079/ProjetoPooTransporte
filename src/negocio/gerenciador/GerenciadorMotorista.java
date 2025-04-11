@@ -35,8 +35,8 @@ public class GerenciadorMotorista {
         repoVeiculo.adicionar(veiculo);
     }
 
-    public Motorista buscarMotorista(String cnh) {
-        return repoMotorista.buscarPorIdentificador(cnh);
+    public Motorista buscarMotorista(String id) {
+        return repoMotorista.buscarPorIdentificador(id);
     }
 
     public List<Motorista> listar() {

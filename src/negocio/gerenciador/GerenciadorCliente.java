@@ -18,10 +18,10 @@ public class GerenciadorCliente {
         this.repoCliente = new RepositorioClienteArquivo();
     }
 
-    public void cadastrarCliente(String nome, String cpf, String telefone, String idade, char sexo) throws EntidadeJaExisteException, IllegalArgumentException {
+    public void cadastrarCliente(String cpf, String nome, String telefone, String idade, char sexo) throws EntidadeJaExisteException, IllegalArgumentException {
         if(repoCliente.buscarPorIdentificador(cpf) != null)
             throw new EntidadeJaExisteException("Já existe um cliente com esse cpf");
-        Cliente c = new Cliente(nome, cpf, telefone, idade, sexo);
+        Cliente c = new Cliente(cpf, nome, telefone, idade, sexo);
 
         //O cliente já é criado no sistema com a forma de pagamento dinheiro
         c.adicionarFormaDePagamento(new Dinheiro());
@@ -29,8 +29,11 @@ public class GerenciadorCliente {
         repoCliente.adicionar(c);
     }
 
-    public Cliente buscarCliente(String cpf) {
-        return repoCliente.buscarPorIdentificador(cpf);
+    public Cliente buscarCliente(String cpf) throws EntidadeNaoExisteException{
+        Cliente c = repoCliente.buscarPorIdentificador(cpf);
+        if(c == null)
+            throw new EntidadeNaoExisteException("Não foi encontrado um cliente com esse cpf.");
+        return c;
     }
 
     public List<Cliente> listar() {
