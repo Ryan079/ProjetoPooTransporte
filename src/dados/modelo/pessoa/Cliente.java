@@ -21,8 +21,12 @@ public class Cliente extends Pessoa{
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+    public void debitarSaldo(double valor) {
+            this.saldo -= valor;
+    }
+
+    public void creditarSaldo(double valor) {
+            this.saldo += valor;
     }
 
     public void adicionarFormaDePagamento(FormaDePagamento forma) {

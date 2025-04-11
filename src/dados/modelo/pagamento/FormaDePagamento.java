@@ -6,5 +6,4 @@ public abstract class FormaDePagamento implements Serializable {
 
     private static final long serialVersionUID = 1001L;
 
-    public abstract void processarPagamento(double valor);
 }

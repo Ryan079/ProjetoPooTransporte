@@ -7,11 +7,10 @@ import dados.modelo.veiculo.Veiculo;
 
 import java.io.Serializable;
 
-public abstract class Viagem implements Serializable {
+public class Viagem implements Serializable {
 
     private static final long serialVersionUID = 1004L;
     private Motorista motorista;
-    private Veiculo veiculo;
     private Cliente cliente;
     private Local origem;
     private Local destino;
@@ -19,19 +18,26 @@ public abstract class Viagem implements Serializable {
     private double distancia;
     private TipoViagem tipo;
 
-    public Viagem(Cliente cliente, Local destino, double distancia, Motorista motorista, Local origem, TipoViagem tipo, double valor, Veiculo veiculo) {
+    public Viagem(Cliente cliente, Local destino, double distancia, Motorista motorista, Local origem, TipoViagem tipo, double valor) {
         this.cliente = cliente;
         this.destino = destino;
-        this.distancia = (Math.random() * (3000 -  500 + 1)) + 500; //gera uma distância mínima de 500m a 3km
+        this.distancia = distancia;
         this.motorista = motorista;
         this.origem = origem;
         this.tipo = tipo;
-        this.valor = 4 + (0.40 + Math.random() * (2.00 - 0.40)) * (this.distancia / 1000); //valor de corrida mínimo de 4 reais com a soma de algum valor aleatório de 40 centavos a 2 reais por km
-        this.veiculo = veiculo;
+        this.valor = valor;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
 
     public Local getDestino() {
         return destino;
+    }
+
+    public TipoViagem getTipo() {
+        return tipo;
     }
 
     public double getDistancia() {
@@ -50,8 +56,16 @@ public abstract class Viagem implements Serializable {
         return valor;
     }
 
-    public Veiculo getVeiculo() {
-        return veiculo;
+    @Override
+    public String toString() {
+        return "=== Viagem ===\n" +
+                "Cliente: " + cliente.getNome() + "\n" +
+                "Motorista: " + motorista.getNome() + "\n" +
+                "Origem: " + origem.getEndereco() + "\n" +
+                "Destino: " + destino.getEndereco() + "\n" +
+                "Distância: " + String.format("%.2f", distancia / 1000) + " km\n" +
+                "Valor: R$" + String.format("%.2f", valor) + "\n" +
+                "Tipo: " + tipo + "\n";
     }
 }
 

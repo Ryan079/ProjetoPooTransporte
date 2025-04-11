@@ -15,6 +15,10 @@ public class Motorista extends Pessoa{
         return cnh;
     }
 
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
     @Override
     public String toString() {
         return "=== Motorista ===\n" +

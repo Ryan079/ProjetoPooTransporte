@@ -7,6 +7,7 @@ import dados.repositorio.IRepositorioPessoa;
 import dados.repositorio.RepositorioClienteArquivo;
 import negocio.excecoes.EntidadeJaExisteException;
 import negocio.excecoes.EntidadeNaoExisteException;
+import negocio.excecoes.EntradaInvalidaException;
 import negocio.excecoes.LimiteFormaDePagamentoAtingidoException;
 
 import java.util.List;
@@ -50,12 +51,13 @@ public class GerenciadorCliente {
         c.adicionarFormaDePagamento(forma);
     }
 
-    public void adicionarSaldo(String cpf, double valor) throws EntidadeNaoExisteException{
+    public void adicionarSaldo(String cpf, double valor) throws EntidadeNaoExisteException, EntradaInvalidaException{
         Cliente c = repoCliente.buscarPorIdentificador(cpf);
         if(c == null)
             throw new EntidadeNaoExisteException("Cliente com o CPF " + cpf + " não encontrado.");
-
-        c.setSaldo(c.getSaldo() + valor);
+        if(valor <= 0)
+            throw new EntradaInvalidaException();
+        c.creditarSaldo(valor);
 
     }
 
