@@ -51,6 +51,13 @@ public class GerenciadorCliente {
         repoCliente.atualizar(clienteAtualizado);
     }
 
+    public void avaliarCliente(Cliente c, double nota) throws EntradaInvalidaException{
+        if(nota > 5 || nota < 1)
+            throw new EntradaInvalidaException();
+        c.setAvaliacao((c.getAvaliacao() + nota)/2);
+        repoCliente.atualizar(c);
+    }
+
     public boolean possuiPix(String cpf) {
         Cliente c = repoCliente.buscarPorIdentificador(cpf);
         return Validador.possuiPix(c);

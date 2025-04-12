@@ -41,6 +41,10 @@ public class Fachada {
         gerenciadorCliente.adicionarFormaDePagamento(cpf, forma);
     }
 
+    public void avaliarCliente(Cliente c, double nota) {
+        gerenciadorCliente.avaliarCliente(c, nota);
+    }
+
     public void adicionarSaldo(String cpf, double saldo) {
         gerenciadorCliente.adicionarSaldo(cpf, saldo);
     }
@@ -60,6 +64,10 @@ public class Fachada {
 
     public List<Motorista> listarMotoristas() {
         return gerenciadorMotorista.listar();
+    }
+
+    public void avaliarMotorista(Motorista m, double nota) {
+        gerenciadorMotorista.avaliarMotorista(m, nota);
     }
 
     public void alterarDisponibilidade(Motorista m) {

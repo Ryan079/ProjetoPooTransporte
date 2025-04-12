@@ -205,6 +205,9 @@ public class Main {
                                          try {
                                              fachada.processarPagamento(escolhida, viagem);
                                              System.out.println("Pagamento processado com sucesso.");
+                                             System.out.println("Dê uma nota de 1 a 5 para o motorista");
+                                             double nota = Double.parseDouble(input.nextLine());
+                                             fachada.avaliarMotorista(viagem.getMotorista(), nota);
                                          } catch (Exception e) {
                                              System.out.println("Erro: " + e.getMessage());
                                          }
@@ -279,7 +282,11 @@ public class Main {
                                             System.out.println("Viagem concluida com sucesso");
                                             System.out.println("Cliente: " + emAndamento.getCliente().getNome());
                                             System.out.println("Valor a ser pago: R$ " + emAndamento.getValor());
+
+                                            System.out.println("Dê uma nota de 1 a 5");
+                                            double nota = Double.parseDouble(input.nextLine());
                                             fachada.finalizarViagem(emAndamento);
+                                            fachada.avaliarCliente(emAndamento.getCliente(), nota);
                                         }
                                         break;
                                     case 0:

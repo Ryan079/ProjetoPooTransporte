@@ -8,6 +8,7 @@ import dados.repositorio.IRepositorioVeiculo;
 import dados.repositorio.RepositorioMotoristaArquivo;
 import dados.repositorio.RepositorioVeiculoArquivo;
 import negocio.excecoes.EntidadeJaExisteException;
+import negocio.excecoes.EntradaInvalidaException;
 
 import java.util.List;
 
@@ -36,6 +37,13 @@ public class GerenciadorMotorista {
 
     public Motorista buscarMotorista(String id) {
         return repoMotorista.buscarPorIdentificador(id);
+    }
+
+    public void avaliarMotorista(Motorista m, double nota) throws EntradaInvalidaException {
+        if(nota > 5 || nota < 1)
+            throw new EntradaInvalidaException();
+        m.setAvaliacao((m.getAvaliacao() + nota) / 2);
+        repoMotorista.atualizar(m);
     }
 
     public void alterarDisponibilidade(Motorista m) {

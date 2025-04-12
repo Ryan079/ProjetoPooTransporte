@@ -28,16 +28,12 @@ public abstract class Pessoa implements Serializable {
         return nome;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public double getAvaliacao() {
+        return avaliacao;
     }
 
-    public char getSexo() {
-        return sexo;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setAvaliacao(double avaliacao) {
+        this.avaliacao = avaliacao;
     }
 
     @Override
