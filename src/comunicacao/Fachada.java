@@ -91,8 +91,8 @@ public class Fachada {
         return gerenciadorViagem.buscarViagemEmAndamentoPorMotorista(cpfMotorista);
     }
 
-    public Viagem buscarViagemEmAndamentoPorCliente(String cpfCliente) {
-        return gerenciadorViagem.buscarViagemEmAndamentoPorCliente(cpfCliente);
+    public Viagem buscarViagemConcluidaPorCliente(String cpfCliente) {
+        return gerenciadorViagem.buscarViagemConcluidaPorCliente(cpfCliente);
     }
 
     public void finalizarViagem(Viagem viagem) {

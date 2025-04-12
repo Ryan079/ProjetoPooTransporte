@@ -69,10 +69,10 @@ public class GerenciadorViagem {
         return null;
     }
 
-    public Viagem buscarViagemEmAndamentoPorCliente(String cpfCliente) {
+    public Viagem buscarViagemConcluidaPorCliente(String cpfCliente) {
         for (Viagem v : this.repoViagem.listar()) {
             if (v.getCliente().getCpf().equals(cpfCliente) &&
-                    v.getStatus() == StatusViagem.EM_ANDAMENTO) {
+                    v.getStatus() == StatusViagem.CONCLUIDA) {
                 return v;
             }
         }
