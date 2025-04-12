@@ -169,7 +169,7 @@ public class Main {
                                          }
                                          break;
                                      case 5:
-                                         Viagem viagem = fachada.buscarViagemEmAndamentoPorCliente(atual.getCpf());
+                                         Viagem viagem = fachada.buscarViagemConcluidaPorCliente(atual.getCpf());
                                          if(viagem == null || viagem.getStatus() != StatusViagem.CONCLUIDA) {
                                              System.out.println("Não há nenhuma viagem pendente de pagamento.");
                                              break;
