@@ -38,6 +38,12 @@ public class GerenciadorMotorista {
         return repoMotorista.buscarPorIdentificador(id);
     }
 
+    public void alterarDisponibilidade(Motorista m) {
+        if(m.isDisponivel())
+            m.setDisponivel(false);
+        m.setDisponivel(true);
+    }
+
     public List<Motorista> listar() {
         return repoMotorista.listar();
     }

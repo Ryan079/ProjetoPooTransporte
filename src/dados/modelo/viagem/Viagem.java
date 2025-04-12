@@ -18,20 +18,21 @@ public class Viagem implements Serializable {
     private TipoViagem tipo;
     private StatusViagem status;
 
-    public Viagem(Cliente cliente, Local destino, double distancia, Motorista motorista, Local origem, TipoViagem tipo, double valor) {
+    public Viagem(Cliente cliente, Local destino, double distancia, Local origem, TipoViagem tipo) {
         this.cliente = cliente;
         this.destino = destino;
         this.distancia = distancia;
-        this.motorista = motorista;
+        this.motorista = null;
         this.origem = origem;
         this.tipo = tipo;
-        this.valor = valor;
+        this.valor = 0.0;
         this.status = StatusViagem.PENDENTE;
     }
 
     public Cliente getCliente() {
         return cliente;
     }
+
 
     public Local getDestino() {
         return destino;
@@ -49,12 +50,20 @@ public class Viagem implements Serializable {
         return motorista;
     }
 
+    public void setMotorista(Motorista motorista) {
+        this.motorista = motorista;
+    }
+
     public Local getOrigem() {
         return origem;
     }
 
     public double getValor() {
         return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public StatusViagem getStatus() {
@@ -69,12 +78,13 @@ public class Viagem implements Serializable {
     public String toString() {
         return "=== Viagem ===\n" +
                 "Cliente: " + cliente.getNome() + "\n" +
-                "Motorista: " + motorista.getNome() + "\n" +
+                "Motorista: " + (motorista != null ? motorista.getNome() : "Aguardando motorista") + "\n" +
                 "Origem: " + origem.getEndereco() + "\n" +
                 "Destino: " + destino.getEndereco() + "\n" +
                 "Distância: " + String.format("%.2f", distancia / 1000) + " km\n" +
-                "Valor: R$" + String.format("%.2f", valor) + "\n" +
-                "Tipo: " + tipo + "\n";
+                "Valor: R$" + (valor > 0 ? "R$" + String.format("%.2f", valor) : "A ser definido") + "\n" +
+                "Tipo: " + tipo + "\n" +
+                "Status: " + status;
     }
 }
 

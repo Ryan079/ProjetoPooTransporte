@@ -1,10 +1,13 @@
 package ui;
 
 import comunicacao.Fachada;
+import dados.modelo.local.Local;
 import dados.modelo.pagamento.CartaoCredito;
 import dados.modelo.pagamento.Pix;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
+import dados.modelo.viagem.TipoViagem;
+import dados.modelo.viagem.Viagem;
 import negocio.excecoes.EntidadeJaExisteException;
 import negocio.excecoes.EntidadeNaoExisteException;
 import ui.utilitario.Cadastro;
@@ -106,7 +109,6 @@ public class Main {
                                          System.out.println("Escolha a forma de pagamento para adicionar");
                                          System.out.println("1 - Pix");
                                          System.out.println("2 - Cartão de Crédito");
-
                                          int escolhaPagamento = Integer.parseInt(input.nextLine());
 
                                          switch(escolhaPagamento) {
@@ -137,6 +139,29 @@ public class Main {
                                              System.out.println("É necessário ter o pix cadastrado para adicionar saldo.");
                                          }
                                          break;
+                                     case 4:
+                                         System.out.println("Informe o endereço de origem");
+                                         String endOrigem = input.nextLine();
+                                         System.out.println("Informe o endereço de destino");
+                                         String endDestino = input.nextLine();
+
+                                         System.out.println("Escolha o tipo de viagem:");
+                                         for(TipoViagem t : TipoViagem.values())
+                                             System.out.println(t.ordinal() + " - " + t);
+
+                                         int tipoEscolhido = Integer.parseInt(input.nextLine());
+                                         TipoViagem tP = TipoViagem.values()[tipoEscolhido];
+
+                                         Local origem = new Local(endOrigem);
+                                         Local destino = new Local(endDestino);
+
+                                         try {
+                                             fachada.solicitarViagem(atual, origem, destino, tP);
+                                             System.out.println("Viagem solicitada com sucesso! Aguardando motorista...");
+                                         } catch (Exception e) {
+                                             System.out.println("Erro ao solicitar viagem: " + e.getMessage());
+                                         }
+                                         break;
                                      case 0:
                                          menuCliente = false;
                                          break;
@@ -156,13 +181,49 @@ public class Main {
                             while(menuMotorista) {
                                 System.out.println("------- Menu do Motorista -------");
                                 System.out.println("Bem vindo, " + atual.getNome());
-                                System.out.println("1 - Exibir informações.");
+                                System.out.println("1 - Exibir informações");
+                                System.out.println("2 - Visualizar corridas disponíveis");
+                                System.out.println("3 - Concluir corrida");
                                 System.out.println("0 - Retornar ao Menu Principal");
 
                                 int opcaoMotorista = Integer.parseInt(input.nextLine());
                                 switch(opcaoMotorista) {
                                     case 1:
                                         System.out.println(atual);
+                                        break;
+                                    case 2:
+                                        List<Viagem> pendentes = fachada.listarViagensPendentes();
+                                        if(pendentes.isEmpty())
+                                            System.out.println("Não há viagens pendentes no momento.");
+                                        else if (atual.isDisponivel()) {
+                                            System.out.println("Você já aceitou uma viagem. Conclua a atual para poder procurar por mais viagens");
+                                        } else {
+                                            System.out.println("Viagens pendentes:");
+                                            for (int i = 0; i < pendentes.size(); i++) {
+                                                Viagem v = pendentes.get(i);
+                                                System.out.println("[" + i + "] Cliente: " + v.getCliente().getNome());
+                                                System.out.println("Origem: " + v.getOrigem().getEndereco());
+                                                System.out.println("Destino: " + v.getDestino().getEndereco());
+                                                System.out.println("Distância: " + v.getDistancia() + "m");
+                                                System.out.println("Tipo: " + v.getTipo());
+                                                System.out.println("Status: " + v.getStatus());
+                                                System.out.println("-------------------------");
+                                            }
+                                            System.out.println("Digite o número da viagem que deseja aceitar ou -1 para cancelar.");
+                                            int escolha = Integer.parseInt(input.nextLine());
+                                            if(escolha >= 0 && escolha < pendentes.size()) {
+                                                Viagem selecionada = pendentes.get(escolha);
+                                                try {
+                                                    fachada.aceitarViagem(selecionada, atual);
+                                                    fachada.alterarDisponibilidade(atual);
+                                                    System.out.println("Viagem atribuída com sucesso");
+                                                } catch (Exception e) {
+                                                    System.out.println("Erro ao aceitar viagem: " + e.getMessage());
+                                                }
+                                            } else if(escolha != -1) {
+                                                System.out.println("Escolha inválida.");
+                                            }
+                                        }
                                         break;
                                     case 0:
                                         menuMotorista = false;

@@ -10,7 +10,7 @@ public class Motorista extends Pessoa{
         super(cpf, nome, telefone, idade, sexo);
         this.cnh = cnh;
         this.veiculo = veiculo;
-        this.disponivel = false;
+        this.disponivel = true;
     }
 
     public String getCnh() {

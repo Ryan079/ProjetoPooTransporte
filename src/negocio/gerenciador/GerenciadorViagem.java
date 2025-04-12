@@ -17,29 +17,49 @@ import negocio.excecoes.AlteracaoInvalidaException;
 import negocio.excecoes.EntradaInvalidaException;
 import negocio.excecoes.SaldoInsuficienteException;
 
+import java.util.List;
+
 public class GerenciadorViagem {
     private IRepositorioViagem repoViagem;
     private GerenciadorCliente gerenciadorCliente; //Gerenciador adicionado para poder salvar no arquivo as alterações no saldo do cliente
+    private List<Viagem> viagensPendentes;
 
     public GerenciadorViagem() {
         this.repoViagem = new RepositorioViagemArquivo();
         this.gerenciadorCliente = new GerenciadorCliente();
     }
 
-    public void criarViagem(Cliente c, Motorista m, Local origem, Local destino, TipoViagem tipo) throws EntradaInvalidaException {
-
-        TipoVeiculo tipoVeiculo = m.getVeiculo().getTipo();
+    public void solicitarViagem(Cliente c, Local origem, Local destino, TipoViagem tipo) {
 
         double distancia = gerarDistanciaAleatoria();
-        double valor = calcularValorCorrida(distancia, tipoVeiculo);
 
-        //Não torna possível criar uma viagem de entrega usando uma motocicleta
-        if(tipoVeiculo == TipoVeiculo.MOTOCICLETA && tipo == TipoViagem.ENTREGA)
-            throw new EntradaInvalidaException();
-
-        Viagem viagem = new Viagem(c, destino, distancia, m, origem, tipo, valor);
+        Viagem viagem = new Viagem(c, destino, distancia, origem, tipo);
         repoViagem.adicionar(viagem);
     }
+
+    public void aceitarViagem(Viagem viagem, Motorista m) throws AlteracaoInvalidaException, EntradaInvalidaException {
+        if(viagem.getStatus() != StatusViagem.PENDENTE)
+            throw new AlteracaoInvalidaException("A viagem não pode ser aceita nesse estado");
+
+        TipoVeiculo tipo = m.getVeiculo().getTipo();
+
+        if (tipo == TipoVeiculo.MOTOCICLETA && viagem.getTipo() == TipoViagem.ENTREGA)
+            throw new EntradaInvalidaException();
+
+        double valor = calcularValorCorrida(viagem.getDistancia(), tipo);
+
+        viagem.setMotorista(m);
+        viagem.setValor(valor);
+
+        confirmarViagem(viagem);
+        repoViagem.atualizar(viagem);
+    }
+
+    public List<Viagem> listarViagensPendentes() {
+        return repoViagem.listarPendentes();
+    }
+
+
 
     public void processarPagamento(FormaDePagamento forma, Viagem viagem) throws SaldoInsuficienteException, EntradaInvalidaException {
         Cliente c = viagem.getCliente();
@@ -68,12 +88,11 @@ public class GerenciadorViagem {
         }
     }
 
-    public void aceitarViagem(Viagem viagem) throws AlteracaoInvalidaException {
+    public void confirmarViagem(Viagem viagem) throws AlteracaoInvalidaException {
         if(viagem.getStatus() != StatusViagem.PENDENTE)
             throw new AlteracaoInvalidaException("A viagem não pode ser aceita nesse estado.");
 
         viagem.setStatus(StatusViagem.EM_ANDAMENTO);
-        repoViagem.atualizar(viagem);
     }
 
     public void finalizarViagem(Viagem viagem) throws AlteracaoInvalidaException {
@@ -81,18 +100,7 @@ public class GerenciadorViagem {
             throw new AlteracaoInvalidaException("A viagem precisa estar em andamento para ser finalizada.");
 
         viagem.setStatus(StatusViagem.CONCLUIDA);
-        repoViagem.atualizar(viagem);
     }
-
-    public void cancelarCorrida(Viagem viagem) throws AlteracaoInvalidaException {
-        if(viagem.getStatus() == StatusViagem.CONCLUIDA)
-            throw new AlteracaoInvalidaException("Não é possível cancelar uma viagem já finalizada.");
-
-        viagem.setStatus(StatusViagem.CANCELADA);
-        repoViagem.atualizar(viagem);
-    }
-
-
 
     public double gerarDistanciaAleatoria() {
         return (Math.random() * (3000 -  500 + 1)) + 500;//gera uma distância mínima de 500m a 3km
@@ -101,7 +109,7 @@ public class GerenciadorViagem {
     public double calcularValorCorrida(double distancia, TipoVeiculo tipoVeiculo) {
         double valorBase = 4.0;
 
-        double tarifaPorKm = 0.40 + Math.random() * (2-00 - 0.40);
+        double tarifaPorKm = 0.40 + Math.random() * (2.00 - 0.40);
         double valor = valorBase + tarifaPorKm * (distancia/1000.0);
 
         switch(tipoVeiculo) {

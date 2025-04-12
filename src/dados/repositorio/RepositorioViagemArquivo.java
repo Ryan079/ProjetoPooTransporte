@@ -1,5 +1,6 @@
 package dados.repositorio;
 
+import dados.modelo.viagem.StatusViagem;
 import dados.modelo.viagem.Viagem;
 
 import java.io.*;
@@ -28,6 +29,16 @@ public class RepositorioViagemArquivo implements IRepositorioViagem{
     @Override
     public List<Viagem> listar() {
         return viagens;
+    }
+
+    @Override
+    public List<Viagem> listarPendentes() {
+        List<Viagem> pendentes = new ArrayList<>();
+        for(Viagem viagem : viagens){
+            if(viagem.getStatus() == StatusViagem.PENDENTE)
+                pendentes.add(viagem);
+        }
+        return pendentes;
     }
 
     private List<Viagem> carregar() {

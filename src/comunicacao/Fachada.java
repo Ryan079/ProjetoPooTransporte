@@ -1,21 +1,27 @@
 package comunicacao;
 
+import dados.modelo.local.Local;
 import dados.modelo.pagamento.FormaDePagamento;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
 import dados.modelo.veiculo.TipoVeiculo;
+import dados.modelo.viagem.TipoViagem;
+import dados.modelo.viagem.Viagem;
 import negocio.gerenciador.GerenciadorCliente;
 import negocio.gerenciador.GerenciadorMotorista;
+import negocio.gerenciador.GerenciadorViagem;
 
 import java.util.List;
 
 public class Fachada {
     private GerenciadorCliente gerenciadorCliente;
     private GerenciadorMotorista gerenciadorMotorista;
+    private GerenciadorViagem gerenciadorViagem;
 
     public Fachada() {
         this.gerenciadorCliente = new GerenciadorCliente();
         this.gerenciadorMotorista =  new GerenciadorMotorista();
+        this.gerenciadorViagem = new GerenciadorViagem();
     }
 
     // Cliente
@@ -54,6 +60,23 @@ public class Fachada {
 
     public List<Motorista> listarMotoristas() {
         return gerenciadorMotorista.listar();
+    }
+
+    public void alterarDisponibilidade(Motorista m) {
+        gerenciadorMotorista.alterarDisponibilidade(m);
+    }
+
+    //Viagem
+    public void solicitarViagem(Cliente c, Local origem, Local destino, TipoViagem tipo) {
+        gerenciadorViagem.solicitarViagem(c, origem, destino, tipo);
+    }
+
+    public void aceitarViagem(Viagem v, Motorista m) {
+        gerenciadorViagem.aceitarViagem(v, m);
+    }
+
+    public List<Viagem> listarViagensPendentes() {
+        return gerenciadorViagem.listarViagensPendentes();
     }
 
 }
