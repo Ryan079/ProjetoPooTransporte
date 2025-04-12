@@ -195,7 +195,7 @@ public class Main {
                                          int escolha = input.nextInt();
                                          input.nextLine();
 
-                                         if(escolha < 1 || opcao > formas.size()){
+                                         if(escolha < 1 || escolha > formas.size()){
                                              System.out.println("Opção inválida.");
                                              break;
                                          }
@@ -244,7 +244,7 @@ public class Main {
                                         List<Viagem> pendentes = fachada.listarViagensPendentes();
                                         if(pendentes.isEmpty())
                                             System.out.println("Não há viagens pendentes no momento.");
-                                        else if (atual.isDisponivel()) {
+                                        else if (!atual.isDisponivel()) {
                                             System.out.println("Você já aceitou uma viagem. Conclua a atual para poder procurar por mais viagens");
                                         } else {
                                             System.out.println("Viagens pendentes:");

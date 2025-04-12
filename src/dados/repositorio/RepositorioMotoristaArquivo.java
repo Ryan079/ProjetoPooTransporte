@@ -1,6 +1,5 @@
 package dados.repositorio;
 
-import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
 
 import java.io.*;
@@ -22,7 +21,14 @@ public class RepositorioMotoristaArquivo implements IRepositorioPessoa<Motorista
 
     @Override
     public void atualizar(Motorista pessoa) {
-        salvar();
+        // Atualiza o motorista na lista
+        for (int i = 0; i < motoristas.size(); i++) {
+            if (motoristas.get(i).getCpf().equals(pessoa.getCpf())) {
+                motoristas.set(i, pessoa);
+                break;
+            }
+        }
+        salvar();  // Salva a lista atualizada no arquivo
     }
 
     //O método aceita tanto o cpf quanto a cnh do motorista

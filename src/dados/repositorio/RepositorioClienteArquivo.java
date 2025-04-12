@@ -1,7 +1,5 @@
 package dados.repositorio;
 
-import dados.modelo.pessoa.Motorista;
-import dados.modelo.pessoa.Pessoa;
 import dados.modelo.pessoa.Cliente;
 
 import java.io.*;
@@ -24,6 +22,12 @@ public class RepositorioClienteArquivo implements IRepositorioPessoa<Cliente>{
 
     @Override
     public void atualizar(Cliente pessoa) {
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getCpf().equals(pessoa.getCpf())) {
+                clientes.set(i, pessoa);
+                break;
+            }
+        }
         salvar();
     }
 
