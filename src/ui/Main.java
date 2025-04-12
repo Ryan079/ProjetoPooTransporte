@@ -3,16 +3,21 @@ package ui;
 import comunicacao.Fachada;
 import dados.modelo.local.Local;
 import dados.modelo.pagamento.CartaoCredito;
+import dados.modelo.pagamento.Dinheiro;
+import dados.modelo.pagamento.FormaDePagamento;
 import dados.modelo.pagamento.Pix;
 import dados.modelo.pessoa.Cliente;
 import dados.modelo.pessoa.Motorista;
+import dados.modelo.viagem.StatusViagem;
 import dados.modelo.viagem.TipoViagem;
 import dados.modelo.viagem.Viagem;
 import negocio.excecoes.EntidadeJaExisteException;
 import negocio.excecoes.EntidadeNaoExisteException;
 import ui.utilitario.Cadastro;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Scanner;
 
 
@@ -98,6 +103,7 @@ public class Main {
                                  System.out.println("2 - Adicionar Forma de Pagamento");
                                  System.out.println("3 - Adicionar Saldo");
                                  System.out.println("4 - Solicitar Corrida");
+                                 System.out.println("5 - Pagar Corrida");
                                  System.out.println("0 - Retornar ao Menu Principal");
 
                                  int opcaoCliente = Integer.parseInt(input.nextLine());
@@ -162,6 +168,46 @@ public class Main {
                                              System.out.println("Erro ao solicitar viagem: " + e.getMessage());
                                          }
                                          break;
+                                     case 5:
+                                         Viagem viagem = fachada.buscarViagemEmAndamentoPorCliente(atual.getCpf());
+                                         if(viagem == null || viagem.getStatus() != StatusViagem.CONCLUIDA) {
+                                             System.out.println("Não há nenhuma viagem pendente de pagamento.");
+                                             break;
+                                         }
+
+                                         Set<FormaDePagamento> formasSet = atual.getFormaDePagamentos();
+                                         List<FormaDePagamento> formas = new ArrayList<>(formasSet); //Conversão feita para poder ser exibida e selecionada por índice
+
+                                         System.out.println("Escolha a forma de pagamento");
+                                         for(int i =0; i < formas.size(); i++) {
+                                             FormaDePagamento forma = formas.get(i);
+                                             String tipo;
+                                             if(forma instanceof Pix) {
+                                                 tipo = "Pix";
+                                             } else if(forma instanceof Dinheiro) {
+                                                 tipo = "Dinheiro";
+                                             } else if(forma instanceof CartaoCredito) {
+                                                 tipo = "Cartão de Crédito";
+                                             } else
+                                                 tipo = "Desconhecido";
+                                             System.out.println((i + 1) + " - " + tipo);
+                                         }
+                                         int escolha = input.nextInt();
+                                         input.nextLine();
+
+                                         if(escolha < 1 || opcao > formas.size()){
+                                             System.out.println("Opção inválida.");
+                                             break;
+                                         }
+
+                                         FormaDePagamento escolhida = formas.get(escolha - 1);
+
+                                         try {
+                                             fachada.processarPagamento(escolhida, viagem);
+                                             System.out.println("Pagamento processado com sucesso.");
+                                         } catch (Exception e) {
+                                             System.out.println("Erro: " + e.getMessage());
+                                         }
                                      case 0:
                                          menuCliente = false;
                                          break;
@@ -223,6 +269,17 @@ public class Main {
                                             } else if(escolha != -1) {
                                                 System.out.println("Escolha inválida.");
                                             }
+                                        }
+                                        break;
+                                    case 3:
+                                        Viagem emAndamento = fachada.buscarViagemEmAndamentoPorMotorista(atual.getCpf());
+                                        if(emAndamento == null)
+                                            System.out.println("Não há viagem em andamento no momento.");
+                                        else {
+                                            System.out.println("Viagem concluida com sucesso");
+                                            System.out.println("Cliente: " + emAndamento.getCliente().getNome());
+                                            System.out.println("Valor a ser pago: R$ " + emAndamento.getValor());
+                                            fachada.finalizarViagem(emAndamento);
                                         }
                                         break;
                                     case 0:

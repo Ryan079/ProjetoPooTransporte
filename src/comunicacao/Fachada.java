@@ -75,6 +75,22 @@ public class Fachada {
         gerenciadorViagem.aceitarViagem(v, m);
     }
 
+    public void processarPagamento(FormaDePagamento f, Viagem viagem) {
+        gerenciadorViagem.processarPagamento(f, viagem);
+    }
+
+    public Viagem buscarViagemEmAndamentoPorMotorista(String cpfMotorista) {
+        return gerenciadorViagem.buscarViagemEmAndamentoPorMotorista(cpfMotorista);
+    }
+
+    public Viagem buscarViagemEmAndamentoPorCliente(String cpfCliente) {
+        return gerenciadorViagem.buscarViagemEmAndamentoPorCliente(cpfCliente);
+    }
+
+    public void finalizarViagem(Viagem viagem) {
+        gerenciadorViagem.finalizarViagem(viagem);
+    }
+
     public List<Viagem> listarViagensPendentes() {
         return gerenciadorViagem.listarViagensPendentes();
     }

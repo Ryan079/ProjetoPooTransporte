@@ -22,7 +22,6 @@ import java.util.List;
 public class GerenciadorViagem {
     private IRepositorioViagem repoViagem;
     private GerenciadorCliente gerenciadorCliente; //Gerenciador adicionado para poder salvar no arquivo as alterações no saldo do cliente
-    private List<Viagem> viagensPendentes;
 
     public GerenciadorViagem() {
         this.repoViagem = new RepositorioViagemArquivo();
@@ -59,20 +58,41 @@ public class GerenciadorViagem {
         return repoViagem.listarPendentes();
     }
 
+    public Viagem buscarViagemEmAndamentoPorMotorista(String cpfMotorista) {
+        for (Viagem v : this.repoViagem.listar()) {
+            if (v.getMotorista() != null &&
+                    v.getMotorista().getCpf().equals(cpfMotorista) &&
+                    v.getStatus() == StatusViagem.EM_ANDAMENTO) {
+                return v;
+            }
+        }
+        return null;
+    }
 
+    public Viagem buscarViagemEmAndamentoPorCliente(String cpfCliente) {
+        for (Viagem v : this.repoViagem.listar()) {
+            if (v.getCliente().getCpf().equals(cpfCliente) &&
+                    v.getStatus() == StatusViagem.EM_ANDAMENTO) {
+                return v;
+            }
+        }
+        return null;
+    }
 
     public void processarPagamento(FormaDePagamento forma, Viagem viagem) throws SaldoInsuficienteException, EntradaInvalidaException {
         Cliente c = viagem.getCliente();
         double valor = viagem.getValor();
 
-        if(forma instanceof Dinheiro)
-            System.out.println("Pagamento realizado com sucesso.");
-
+        if(forma instanceof Dinheiro) {
+            pagarViagem(viagem);
+            gerenciadorCliente.atualizarCliente(c);
+        }
         else if(forma instanceof Pix) {
             if(c.getSaldo() < valor)
                 throw new SaldoInsuficienteException();
 
             c.debitarSaldo(valor);
+            pagarViagem(viagem);
             gerenciadorCliente.atualizarCliente(c);
 
         } else if(forma instanceof CartaoCredito) {
@@ -81,11 +101,11 @@ public class GerenciadorViagem {
                 throw new SaldoInsuficienteException();
 
             cartao.debitar(valor);
+            pagarViagem(viagem);
             gerenciadorCliente.atualizarCliente(c);
 
-        } else {
+        } else
             throw new EntradaInvalidaException();
-        }
     }
 
     public void confirmarViagem(Viagem viagem) throws AlteracaoInvalidaException {
@@ -100,6 +120,14 @@ public class GerenciadorViagem {
             throw new AlteracaoInvalidaException("A viagem precisa estar em andamento para ser finalizada.");
 
         viagem.setStatus(StatusViagem.CONCLUIDA);
+        repoViagem.atualizar(viagem);
+    }
+
+    public void pagarViagem(Viagem viagem) throws AlteracaoInvalidaException {
+        if(viagem.getStatus() != StatusViagem.CONCLUIDA)
+            throw new AlteracaoInvalidaException("A viagem não pode ser paga enquanto não estiver concluída.");
+
+        viagem.setStatus(StatusViagem.PAGA);
     }
 
     public double gerarDistanciaAleatoria() {
